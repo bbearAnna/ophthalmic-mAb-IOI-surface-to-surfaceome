@@ -13,11 +13,11 @@ Intravitreal anti-VEGF biologics are the standard of care for neovascular age-re
 
 Clinically, Brolucizumab has been associated with elevated rates of **Intraocular Inflammation (IOI, 4.6%–9.3%)** and sight-threatening **retinal occlusive vasculitis**, tightly linked to preexisting (36%–52%) and treatment-emergent (53%–76%) **Anti-Drug Antibodies (ADAs)**. Root-cause studies show that multivalent **Brolucizumab–ADA Immune Complexes (ICs)** activate vascular endothelial cells and platelets in the retina.
 
-**This repository implements a 4-notebook Google Colab pipeline connecting atomic antibody structure to cellular surfaceome pathology:**
-1. **Molecular Surface Fingerprinting (*inspired by Prof. Bruno Correia's Lab, EPFL*):** Geometric deep learning (`PeSTo`) and SASA/hydropathy mapping to pinpoint non-paratope "sticky" surface patches and putative B-cell ADA epitopes.
-2. **Conformational Dynamics & Allosteric Coupling (*inspired by Prof. Patrick Barth's Lab, EPFL*):** Normal Mode Analysis (ANM) and Dynamical Cross-Correlation Matrices (`ProDy` / `AlloCraft`-style DCCM) to test how $C_H1/C_L$ removal alters $V_H$–$V_L$ stability.
+**This repository implements a Google Colab pipeline connecting atomic antibody structure to cellular surfaceome pathology:**
+1. **Molecular Surface Fingerprinting:** Geometric deep learning (`PeSTo`) and SASA/hydropathy mapping to pinpoint non-paratope "sticky" surface patches and putative B-cell ADA epitopes.
+2. **Conformational Dynamics & Allosteric Coupling:** Normal Mode Analysis (ANM) and Dynamical Cross-Correlation Matrices (`ProDy` / `AlloCraft`-style DCCM) to test how $C_H1/C_L$ removal alters $V_H$–$V_L$ stability.
 3. **Paratope-Locked Surface De-immunization (*inspired by BindCraft / Soluble ProteinMPNN*):** Redesigning exposed framework hotspots while freezing the bound VEGF-A paratope to suppress surface stickiness.
-4. **Endothelial Surfaceome & Simulated LUX-MS Network (*inspired by Prof. Bernd Wollscheid's Lab, ETH Zürich*):** Decoding how Drug–ADA immune complexes shift nanoscale receptor neighborhoods ("synaptomes") on human retinal endothelial cells using `SURFY`, `STRING/UniProt`, and `Protter`.
+4. **Endothelial Surfaceome & Simulated LUX-MS Network:** Decoding how Drug–ADA immune complexes shift nanoscale receptor neighborhoods ("synaptomes") on human retinal endothelial cells using `SURFY`, `STRING/UniProt`, and `Protter`.
 
 ---
 
@@ -34,12 +34,11 @@ To separate **architectural scFv format effects** (removing $C_H1/C_L$) from **s
 
 ---
 
-## 3. Notebook-by-Notebook Scientific Questions & Results
+## 3. Scientific Questions & Results
 
-### Notebook 1: Molecular Surface Interaction Fingerprinting
-📁 [`notebooks/01_Surface_Fingerprinting_PeSTo_Correia.ipynb`](notebooks/01_Surface_Fingerprinting_PeSTo_Correia.ipynb)
+### Step 1: Molecular Surface Interaction Fingerprinting
 
-* **Questions Answered:**
+* **Questions:**
   * Does truncating $C_H1/C_L$ in `Brolucizumab` and `Ranibizumab-scFv` unmask hydrophobic, interaction-prone patches outside the VEGF-A paratope (< 5.0 Å) compared to clamped Fabs (`1CZ8`, `1BJ1`)?
   * Which non-paratope framework residues carry the highest solvent exposure (`ShrakeRupley` SASA), Kyte-Doolittle hydropathy, and `PeSTo` PPI probability?
 * **Key Findings:**
@@ -50,10 +49,9 @@ To separate **architectural scFv format effects** (removing $C_H1/C_L$) from **s
 
 ---
 
-### Notebook 2: Conformational Dynamics & Allosteric Coupling
-📁 [`notebooks/02_Conformational_Dynamics_DCCM_Barth.ipynb`](notebooks/02_Conformational_Dynamics_DCCM_Barth.ipynb)
+### Step 2: Conformational Dynamics & Allosteric Coupling
 
-* **Questions Answered:**
+* **Questions:**
   * How does removing the disulfide-clamped $C_H1$–$C_L$ dimer alter low-frequency normal modes and Dynamical Cross-Correlation Matrices (`DCCM`) across the $V_H$–$V_L$ dimer?
 * **Key Findings:**
   * Building intact spring networks (`ProDy` ANM) shows that $C_H1/C_L$ clamping locks `Ranibizumab` and `Bevacizumab` into correlated $V_H$–$V_L$ motion (+0.6 to +0.9).
@@ -64,9 +62,8 @@ To separate **architectural scFv format effects** (removing $C_H1/C_L$) from **s
 ---
 
 ### Notebook 3: Paratope-Locked Surface De-immunization via Soluble ProteinMPNN
-📁 [`notebooks/03_ProteinMPNN_Surface_Deimmunization.ipynb`](notebooks/03_ProteinMPNN_Surface_Deimmunization.ipynb)
 
-* **Questions Answered:**
+* **Questions:**
   * Can `Soluble ProteinMPNN` (`weights="soluble"`, `inverse=True` in `ColabDesign`) resurface Brolucizumab's top 5 non-paratope hotspots while freezing all bound VEGF-A chains and CDR paratope residues?
 * **Key Findings:**
   * Sampling 20 designs at $T = 0.1$ (excluding Cys, Trp, Met) replaces exposed framework hydrophobes with charge-balanced polar residues (Glu, Gln, Lys, Ser) while preserving ~98% sequence identity.
@@ -76,10 +73,9 @@ To separate **architectural scFv format effects** (removing $C_H1/C_L$) from **s
 
 ---
 
-### Notebook 4: Retinal Endothelial Surfaceome & Simulated LUX-MS Proximity Network
-📁 [`notebooks/04_Surfaceome_LUX_MS_Network_Wollscheid.ipynb`](notebooks/04_Surfaceome_LUX_MS_Network_Wollscheid.ipynb)
+### Step 4: Retinal Endothelial Surfaceome & Simulated LUX-MS Proximity Network
 
-* **Questions Answered:**
+* **Questions:**
   * How do multivalent **Brolucizumab–ADA Immune Complexes** remodel acute nanoscale receptor neighborhoods ("synaptomes") on human retinal vascular endothelial cells?
   * Are the recruited IOI hub receptors experimentally tractable via **LUX-MS** and **Cell Surface Capture (CSC)**?
 * **Key Findings:**
@@ -91,9 +87,9 @@ To separate **architectural scFv format effects** (removing $C_H1/C_L$) from **s
 
 ---
 
-## 4. Overall Conclusion & Experimental PhD Validation Roadmap
+## 4. Overall Conclusion
 
-Together, these four modules link **scFv constant-domain truncation and framework stickiness** (Notebooks 1–2) to **ADA immune-complex nucleation** and **Fc$\gamma$RIIa-driven endothelial surfaceome remodeling** (Notebook 4), while providing **20 resurfaced Brolucizumab candidates** (Notebook 3) ready for wet-lab testing:
+Together, these four modules link **scFv constant-domain truncation and framework stickiness** to **ADA immune-complex nucleation** and **Fc$\gamma$RIIa-driven endothelial surfaceome remodeling** , while providing **20 resurfaced Brolucizumab candidates** ready for wet-lab testing:
 
 1. **Stage 1 — High-Throughput *In Vitro* Biophysical & ADA-Depletion Screen:** Express WT Brolucizumab, `Ranibizumab-scFv`, and the 20 `Soluble ProteinMPNN` variants in 96-well format to screen thermal/colloidal stability (`nanoDSF` / `DLS` at > 50 mg/mL), retained picomolar `VEGF-A165` affinity (`SPR` / `Octet BLI`), and > 80% depleted binding to patient-derived anti-Brolucizumab ADAs.
 2. **Stage 2 — Living-Cell Optoproteomic LUX-MS on Primary Retinal Endothelium:** Couple singlet-oxygen generators (thiorhodamine SOGs) to monomeric vs. ADA-complexed WT and de-immunized Brolucizumab on primary **Human Retinal Microvascular Endothelial Cells (HRMECs)**. Light-activated **LUX-MS** + DIA-LC-MS/MS will quantify nanoscale `FCGR2A`–`ICAM1`–`CDH5` synaptome remodeling alongside high-throughput **TEER** barrier assays.
@@ -113,11 +109,8 @@ ophthalmic-mAb-IOI-surface-to-surfaceome/
 │   ├── Cohort_2x2_Surface_Fingerprints.csv
 │   ├── Brolucizumab_Deimmunized_MPNN.csv
 │   └── Endothelial_SURFY_LUX_MS_Network.csv
-├── notebooks/
-│   ├── 01_Surface_Fingerprinting_PeSTo_Correia.ipynb
-│   ├── 02_Conformational_Dynamics_DCCM_Barth.ipynb
-│   ├── 03_ProteinMPNN_Surface_Deimmunization.ipynb
-│   └── 04_Surfaceome_LUX_MS_Network_Wollscheid.ipynb
+├── notebook/
+│   ├── ophthalmic-mAb-IOI-surface-to-surfaceome.ipynb
 └── figures/
     ├── Fig1_PeSTo_SASA_Surface_Hotspots_2x2.png
     ├── Fig2_Barth_Style_DCCM_Fab_vs_scFv.png
